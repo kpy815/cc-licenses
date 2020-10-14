@@ -64,6 +64,15 @@ class LegalCode(models.Model):
         """
         return DJANGO_LANGUAGE_CODES.get(self.language_code, self.language_code)
 
+    def has_english(self):
+        """
+        Return True if there's an English translation for the same license.
+        """
+        return (
+            self.language_code == "en"
+            or self.license.legal_codes.filter(language_code="en").exists()
+        )
+
     def branch_name(self):
         """
         If this translation is modified, what is the name of the GitHub branch
